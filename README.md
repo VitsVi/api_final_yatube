@@ -1,23 +1,58 @@
 # api_final
+## Проект предназначен для взаимодействия с базой данных Yatube с помощью API запросов.
 
-### API_Yatube
-Проект предназначен для взаимодействия с базой данных Yatube с помощью API запросов.
 
-GET, POST, PUT, PATCH, DELETE, HEAD
+### Как запустить проект используя GItBash:
 
-Для получения токена доступа передать параметры:
+#### Клонировать репозиторий и перейти в него в командной строке:
+
+```
+git clone https://github.com/VitsVi/api_final_yatube.git
+```
+#### Перейти в папку проекта:
+```
+cd api_final_yatube
+```
+
+#### Cоздать и активировать виртуальное окружение:
+
+```
+python -m venv env
+source venv/Scripts/activate
+```
+
+#### Установить зависимости из файла requirements.txt:
+
+```
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+#### Выполнить миграции в папке файла manage.py:
+
+```
+python3 manage.py migrate
+```
+
+#### Запустить проект:
+
+```
+python3 manage.py runserver
+```
+
+### Для получения токена доступа передать параметры:
 ```
 {
     "username":"name_example",
     "password":"pass_example"
 }
-В запрос:
+```
+#### По адресу:
 ```
 http://127.0.0.1:8000/api/v1/jwt/create/
 ```
 
-
-адреса API запросов:
+### Адреса API запросов:
 
 ```
 http://127.0.0.1:8000/api/v1/posts/
@@ -27,8 +62,8 @@ http://127.0.0.1:8000/api/v1/follow/
 ```
 ### EXAMPLE REQUESTS
 
-Получить список всех постов
-GET - http://127.0.0.1:8000/api/v1/posts/
+#### Получить список всех постов:
+##### GET - http://127.0.0.1:8000/api/v1/posts/
 ```
 [
     {
@@ -50,15 +85,16 @@ GET - http://127.0.0.1:8000/api/v1/posts/
 ]
 ```
 
-Создать комментарий к посту. Требуется передать поле "text"
-POST - http://127.0.0.1:8000/api/v1/posts/{post_id}/comments/
+#### Создать комментарий к посту:
+##### Требуется передать поле "text"
+###### POST - http://127.0.0.1:8000/api/v1/posts/{post_id}/comments/
 
 ```
 {
     "text":"text_example"
 }
 ```
-Ответ:
+##### Ответ:
 ```
 {
     "id": 2,
@@ -68,49 +104,5 @@ POST - http://127.0.0.1:8000/api/v1/posts/{post_id}/comments/
     "created": "2024-11-04T15:08:23.749590Z"
 }
 ```
-PUT запрос к определенному посту.
-PUT - http://127.0.0.1:8000/api/v1/posts/{post_id}/
-
-### Как запустить проект:
-
-Клонировать репозиторий и перейти в него в командной строке:
-
-```
-git clone https://github.com/VitsVi/api_final_yatube.git
-```
-
-```
-cd api_final_yatube
-```
-
-Cоздать и активировать виртуальное окружение:
-
-```
-python -m venv env
-```
-
-```
-source venv/Scripts/activate
-```
-
-Установить зависимости из файла requirements.txt:
-
-```
-pip install --upgrade pip
-```
-
-```
-pip install -r requirements.txt
-```
-
-Выполнить миграции в папке файла manage.py:
-
-```
-python3 manage.py migrate
-```
-
-Запустить проект:
-
-```
-python3 manage.py runserver
-```
+#### PUT запрос к определенному посту.
+###### PUT - http://127.0.0.1:8000/api/v1/posts/{post_id}/

@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import filters, mixins, serializers, viewsets
+from rest_framework import filters, mixins, viewsets
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import (IsAuthenticated,
                                         IsAuthenticatedOrReadOnly)
@@ -7,7 +7,7 @@ from rest_framework.permissions import (IsAuthenticated,
 from .permissions import IsOwnerOrReadOnly
 from .serializers import (CommentSerializer, FollowSerializer, GroupSerializer,
                           PostSerializer)
-from posts.models import Comment, Follow, Group, Post
+from posts.models import Comment, Group, Post
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -25,7 +25,6 @@ class FollowViewSet(mixins.ListModelMixin,
                     viewsets.GenericViewSet):
     serializer_class = FollowSerializer
     permission_classes = [IsAuthenticated]
-    pagination_class = None
     filter_backends = (filters.SearchFilter,)
     search_fields = ('following__username',)
 
@@ -34,18 +33,7 @@ class FollowViewSet(mixins.ListModelMixin,
         return user.follower.all()
 
     def perform_create(self, serializer):
-        following = serializer.validated_data['following']
-        user = self.request.user
-
-        if user == following:
-            raise serializers.ValidationError("You cannot follow yourself.")
-
-        if Follow.objects.filter(user=user, following=following).exists():
-            raise serializers.ValidationError(
-                "You are already following this user."
-            )
-
-        serializer.save(user=user)
+        serializer.save(user=self.request.user)
 
 
 class CommentViewSet(viewsets.ModelViewSet):

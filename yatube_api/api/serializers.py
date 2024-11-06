@@ -35,6 +35,19 @@ class FollowSerializer(serializers.ModelSerializer):
         slug_field='username',
     )
 
+    def validate(self, data):
+        request = self.context.get('request')
+        if request.user == data['following']:
+            raise serializers.ValidationError("You cannot follow yourself.")
+        if Follow.objects.filter(
+            user=request.user,
+            following=data['following']
+        ).exists():
+            raise serializers.ValidationError(
+                "You are already following this user."
+            )
+        return data
+
     class Meta:
         fields = '__all__'
         model = Follow
